@@ -12,7 +12,7 @@
 //		ROS
 
 #include "ros/ros.h"
-#include "biotac_message.h"
+#include "syntouchpublisher/biotac_message.h"
 
 // my code
 
@@ -41,14 +41,14 @@ private:
 
 	void printFrame(const Frame& frame);
 
-	inline void writeToMessage(SynTouchPublisher::biotac_message& msg,const Frame& frame);
+    inline void writeToMessage(syntouchpublisher::biotac_message& msg,const Frame& frame);
 
 
 private:
 
-	SynTouchPublisher::biotac_message msg_finger1;
-	SynTouchPublisher::biotac_message msg_finger2;
-	SynTouchPublisher::biotac_message msg_finger3;
+    syntouchpublisher::biotac_message msg_finger1;
+    syntouchpublisher::biotac_message msg_finger2;
+    syntouchpublisher::biotac_message msg_finger3;
 
 
 	Biotac_interface* biotac_interface;

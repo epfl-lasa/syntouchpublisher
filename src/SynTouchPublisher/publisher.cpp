@@ -27,9 +27,9 @@ void Publisher::broadCast(){
 
 
 	 ros::NodeHandle n;
-	 ros::Publisher pub_finger1 = n.advertise<SynTouchPublisher::biotac_message>("finger1",100);
-	 ros::Publisher pub_finger2 = n.advertise<SynTouchPublisher::biotac_message>("finger2",100);
-	 ros::Publisher pub_finger3 = n.advertise<SynTouchPublisher::biotac_message>("finger3",100);
+     ros::Publisher pub_finger1 = n.advertise<syntouchpublisher::biotac_message>("finger1",100);
+     ros::Publisher pub_finger2 = n.advertise<syntouchpublisher::biotac_message>("finger2",100);
+     ros::Publisher pub_finger3 = n.advertise<syntouchpublisher::biotac_message>("finger3",100);
 	 ros::Rate loop_rate(broadcast_Hz);
 
 
@@ -66,7 +66,7 @@ void Publisher::broadCast(){
 }
 
 
-inline void Publisher::writeToMessage(SynTouchPublisher::biotac_message& msg,const Frame& frame){
+inline void Publisher::writeToMessage(syntouchpublisher::biotac_message& msg,const Frame& frame){
 	for(unsigned int i=0; i < 19; i++){
 		msg.E[i] = frame.E[i];
 		msg.Pac[i] = frame.pac[i];

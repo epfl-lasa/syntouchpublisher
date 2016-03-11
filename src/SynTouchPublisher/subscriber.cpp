@@ -5,24 +5,10 @@
  *      Author: guillaume
  */
 
-#include "subscriber.h"
-
-/*
-void chatterCallbackFinger1(const SynTouch::message::ConstPtr& msg){
-  // ROS_INFO("finger1 E01: [%d]",msg->finger[0]);
-	plot1.plot(msg->finger);
-
-}
-void chatterCallbackFinger2(const SynTouch::message::ConstPtr& msg){
-   ROS_INFO("finger2 E01: [%d]",msg->finger[0]);
-}
-void chatterCallbackFinger3(const SynTouch::message::ConstPtr& msg){
-   ROS_INFO("finger3 E01: [%d]",msg->finger[0]);
-}*/
+#include "gnuplot/subscriber.h"
 
 
-
-void Subscriber::callbackFinger1(const SynTouchPublisher::biotac_message::ConstPtr& msg){
+void Subscriber::callbackFinger1(const syntouchpublisher::biotac_message::ConstPtr& msg){
 	data[0] = 	msg->E[0];
 	data[1] = 	msg->Pac[0];
 
@@ -38,9 +24,6 @@ void Subscriber::callbackFinger1(const SynTouchPublisher::biotac_message::ConstP
 
 int main(int argc, char **argv)
 {
-	gnuplot_ctrl    *h1;
-	h1 = gnuplot_init();
-
 	ros::init(argc, argv, "listener");
 	ros::NodeHandle n;
 	ros::Subscriber sub_finger1 = n.subscribe("finger1", 1, Subscriber::callbackFinger1);

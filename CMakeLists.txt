@@ -1,27 +1,25 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(syn_touch_publisher)
+project(syntouchpublisher)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
+find_package(catkin REQUIRED
   std_msgs
+    message_generation
   rospy
   roscpp
 )
 
-
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost)
+find_package(Boost REQUIRED COMPONENTS thread signals system)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 # catkin_python_setup()
-
-################################################
-##Starting from here, everything serves as a template for completing each new RTK module's CMakelists
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -32,10 +30,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## * Let MSG_DEP_SET be the set of packages whose message types you use in
 ##   your messages/services/actions (e.g. std_msgs, actionlib_msgs, ...).
 ## * In the file package.xml:
+##   * add a build_depend tag for "message_generation"
 ##   * add a build_depend and a run_depend tag for each package in MSG_DEP_SET
-##   * If MSG_DEP_SET isn't empty the following dependencies might have been
-##     pulled in transitively but can be declared for certainty nonetheless:
-##     * add a build_depend tag for "message_generation"
+##   * If MSG_DEP_SET isn't empty the following dependency has been pulled in
+##     but can be declared for certainty nonetheless:
 ##     * add a run_depend tag for "message_runtime"
 ## * In this file (CMakeLists.txt):
 ##   * add "message_generation" and every package in MSG_DEP_SET to
@@ -48,11 +46,11 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
- add_message_files(
+add_message_files(
    FILES
-  message.msg
-  biotac_message.msg
- )
+   biotac_message.msg
+   message.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -69,10 +67,30 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
+generate_messages(
    DEPENDENCIES
    std_msgs  # Or other packages containing msgs
- )
+)
+
+################################################
+## Declare ROS dynamic reconfigure parameters ##
+################################################
+
+## To declare and build dynamic reconfigure parameters within this
+## package, follow these steps:
+## * In the file package.xml:
+##   * add a build_depend and a run_depend tag for "dynamic_reconfigure"
+## * In this file (CMakeLists.txt):
+##   * add "dynamic_reconfigure" to
+##     find_package(catkin REQUIRED COMPONENTS ...)
+##   * uncomment the "generate_dynamic_reconfigure_options" section below
+##     and list every .cfg file to be processed
+
+## Generate dynamic reconfigure parameters in the 'cfg' folder
+# generate_dynamic_reconfigure_options(
+#   cfg/DynReconf1.cfg
+#   cfg/DynReconf2.cfg
+# )
 
 ###################################
 ## catkin specific configuration ##
@@ -85,8 +103,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
-#  CATKIN_DEPENDS mathlib robotlib std_tools
+  CATKIN_DEPENDS roscpp message_generation
+#  LIBRARIES syntouchpublisher
+#  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
 )
 
@@ -94,44 +113,59 @@ catkin_package(
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
- include_directories(include)
-include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+set(INCLUDE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(SRC_DIR             ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-## Declare a cpp library
+
+include_directories(${INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 include_directories(bt_cheetah/include)
 include_directories(include/SynTouchPublisher)
 include_directories(msg_gen/cpp/include/SynTouchPublisher)
-include_directories(gnuplot/include/)
 
-FILE(GLOB theSourceFiles src/*.cpp)
-FILE(GLOB theHeaderFiles src/*.h)
-#add_library(${PROJECT_NAME} ${theSourceFiles} ${theHeaderFiles} )
+#set(H_FILES ${INCLUDE_DIR}/SynTouchPublisher/publisher.h)
+
+#set(SRC_FILES ${SRC_DIR}/SynTouchPublisher/main.cpp
+ #            ${SRC_DIR}/SynTouchPublisher/publisher.cpp
+ #            ${SRC_DIR}/SynTouchPublisher/subscriber.cpp
+#)
+
 add_library(bt_cheetah bt_cheetah/src/biotac_interface.cpp bt_cheetah/src/biotac.c bt_cheetah/src/cheetah.c)
 
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 
-
-
-
-## Declare a cpp executable
 add_executable(synctouch src/SynTouchPublisher/main.cpp src/SynTouchPublisher/publisher.cpp)
-add_executable(listener src/SynTouchPublisher/subscriber.cpp gnuplot/src/plot.cpp)
+#add_executable(listener  src/SynTouchPublisher/subscriber.cpp)
 
-#add_executable(Tester src/main.cpp)
-#target_link_libraries(Tester ${PROJECT_NAME})
-target_link_libraries(synctouch bt_cheetah dl thread signals system)
+target_link_libraries(synctouch ${catkin_LIBRARIES} bt_cheetah dl ${Boost_LIBRARIES})
+#target_link_libraries(listener ${catkin_LIBRARIES})
 
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_generate_messages_cpp)
+#add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencpp ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_gencfg)
 
-### This should probably be un commented...
+
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+# include_directories(include)
+
+## Declare a C++ library
+# add_library(syntouchpublisher
+#   src/${PROJECT_NAME}/syntouchpublisher.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+# add_dependencies(syntouchpublisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+## Declare a C++ executable
+# add_executable(syntouchpublisher_node src/syntouchpublisher_node.cpp)
+
+## Add cmake target dependencies of the executable
+## same as for the library above
+# add_dependencies(syntouchpublisher_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 ## Specify libraries to link a library or executable target against
-
+# target_link_libraries(syntouchpublisher_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -148,7 +182,7 @@ target_link_libraries(synctouch bt_cheetah dl thread signals system)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
+# install(TARGETS syntouchpublisher syntouchpublisher_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -173,37 +207,10 @@ target_link_libraries(synctouch bt_cheetah dl thread signals system)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_${PROJECT_NAME}.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_syntouchpublisher.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

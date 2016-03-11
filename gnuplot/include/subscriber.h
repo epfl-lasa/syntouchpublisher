@@ -9,7 +9,7 @@
 #define SUBSCRIBER_H_
 
 #include "ros/ros.h"
-#include "biotac_message.h"
+#include "syntouchpublisher/biotac_message.h"
 #include <string>
 #include "plot.h"
 
@@ -19,7 +19,7 @@ class Subscriber{
 public:
 
 
-	static void callbackFinger1(const SynTouchPublisher::biotac_message::ConstPtr& msg);
+    static void callbackFinger1(const syntouchpublisher::biotac_message::ConstPtr& msg);
 
 
 
