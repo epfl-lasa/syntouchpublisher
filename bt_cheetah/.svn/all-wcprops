@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/syntouch/!svn/ver/129/trunk/bt_cheetah
+END
+biotac.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/syntouch/!svn/ver/129/trunk/bt_cheetah/biotac.c
+END
+cheetah.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/syntouch/!svn/ver/96/trunk/bt_cheetah/cheetah.c
+END
+BioTacCheetahCLibraryManual-v1.pdf
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/syntouch/!svn/ver/98/trunk/bt_cheetah/BioTacCheetahCLibraryManual-v1.pdf
+END
+biotac.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/syntouch/!svn/ver/126/trunk/bt_cheetah/biotac.h
+END
+cheetah.h
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/syntouch/!svn/ver/96/trunk/bt_cheetah/cheetah.h
+END
+example.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/syntouch/!svn/ver/129/trunk/bt_cheetah/example.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/syntouch/!svn/ver/96/trunk/bt_cheetah/Makefile
+END
+Makefile-32bit
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/syntouch/!svn/ver/97/trunk/bt_cheetah/Makefile-32bit
+END
