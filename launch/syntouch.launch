@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 	
-
-	<node name="syntouch_publisher" pkg="syntouchpublisher" type="synctouch" output="screen"/>
+	<node name="syntouch_publisher" pkg="syntouchpublisher" type="synctouch" output="screen" />
 
 </launch>
 

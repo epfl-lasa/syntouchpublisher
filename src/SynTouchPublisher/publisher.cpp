@@ -52,7 +52,7 @@ void Publisher::broadCast(){
 			 writeToMessage(msg_finger3,buffer[0][FINGER_3]);
 
 			  buffer.pop_front();
-
+              
 			  pub_finger1.publish(msg_finger1);
 			  pub_finger2.publish(msg_finger2);
 			  pub_finger3.publish(msg_finger3);

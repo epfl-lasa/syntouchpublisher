@@ -6,7 +6,7 @@ project(syntouchpublisher)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED
   std_msgs
-    message_generation
+  message_generation
   rospy
   roscpp
 )
@@ -103,7 +103,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp message_generation
+  CATKIN_DEPENDS std_msgs roscpp message_generation
 #  LIBRARIES syntouchpublisher
 #  CATKIN_DEPENDS other_catkin_pkg
 #  DEPENDS system_lib
