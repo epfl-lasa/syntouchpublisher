@@ -12,20 +12,22 @@ In order to be able to read the Biotac data via the Cheetah SPI-USB board you fi
 
 3. Copy the udev rules sudo cp tp-usb-drivers-v2.10/linux/99-totalphase.rules /etc/udev/rules.d/
 
-4. Go to /etc/udev/rules.d/ and change the permission chmode 644 99-totalphase.rules
+4. Go to /etc/udev/rules.d/ and change the permission chmod 644 99-totalphase.rules
 
 Install the cheetah lib
 -----------------------
 
 1. Download the Appropriate API for your machine from http://www.totalphase.com/products/cheetah-api/ (Or find it in the driver folder)
 
-2. Copy the library file (cheetah.dll or cheetah.so) from the downloaded zip. Paste the file into the Syntouch application folder (the bt_cheetah folder with biotac.h, biotac.c, etc.
-files).
+2. Copy the library file (cheetah.dll or cheetah.so) from the downloaded zip. Paste it to the /catkin_ws/devel/lib
+
 
 Test the bt_cheetah example
 ---------------------------
-1. Go to /driver/bt_cheetah/bt_cheetah and run > ./bin/example
-2. If everything is ok, you should see BioTac is found.
+1. Paste the file into the Syntouch application folder (the bt_cheetah folder with biotac.h, biotac.c, etc.
+files).
+2. Go to /driver/bt_cheetah/bt_cheetah and run > ./bin/example
+3. If everything is ok, you should see BioTac is found.
 
 
 Install syntouchpublisher package:
